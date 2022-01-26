@@ -1,3 +1,17 @@
+const TRIGGERS = [
+  {
+    functionName: 'main',
+    hour: 8,
+    minute: 50
+  },
+  {
+    functionName: 'main',
+    hour: 18,
+    minute: 00
+  }
+]
+
+
 /*
   GASのトリガーでは、日毎に設定できるのは時間単位（例：0~1時）までで、分単位の設定はできません。
   そこで、setTriggerDay()を毎日23〜24時の間に実行するようにして、
@@ -8,25 +22,25 @@
 function setTriggerTimer() {
   console.info({method: arguments.callee.name, status: 'run'});
   deleteTrigger('main');
-  const today = new Date();
 
-  if ( isCompanyHoliday(today) ) {
+  if ( isCompanyHoliday( new Date() ) ) {
     return;
   }
 
-  setTrigerMain(8, 50);
-  setTrigerMain(18, 0);
+  for (const trigger of TRIGGERS) {
+    setTrigger(trigger.functionName, trigger.hour, trigger.minute);
+  }
   console.info({method: arguments.callee.name, status: 'success'});
 }
 
 
-function setTrigerMain(hour, minute){
+function setTrigger(functionName, hour, minute){
   console.info({method: arguments.callee.name, status: 'run'});
   const time = new Date();
   time.setHours(hour);
   time.setMinutes(minute);
 
-  ScriptApp.newTrigger("main")
+  ScriptApp.newTrigger(functionName)
     .timeBased()
     .at(time)
     .create();
@@ -35,12 +49,12 @@ function setTrigerMain(hour, minute){
 
 
 // 既存トリガーを削除する
-function deleteTrigger(name) {
+function deleteTrigger(functionName) {
   console.info({method: arguments.callee.name, status: 'run'});
 
   const triggers = ScriptApp.getProjectTriggers();
   triggers.forEach(trigger => {
-    if (trigger.getHandlerFunction() == name) {
+    if (trigger.getHandlerFunction() == functionName) {
       ScriptApp.deleteTrigger(trigger);
     }
   });

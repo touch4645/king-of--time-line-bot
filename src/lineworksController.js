@@ -8,18 +8,19 @@ function main() {
         "type": "uri",
         "label": "打刻",
         "uri": "https://s2.kingtime.jp/independent/recorder/personal/"
-      }]
+    }];
   
     const content = {
       "type": "button_template",
       "contentText": "打刻しますか?",
       "actions": actions
-    }
+    };
 
     const accountIds = getAccountIds();
-    accountIds.forEach(accountId => {
+    
+    for (const accountId of accountIds) {
         kingOfTimeBot.sendMessage(accountId, content);
-    });
+    }
     console.info({method: arguments.callee.name, status: 'success'});
 }
 
@@ -32,21 +33,15 @@ function getAccountIds() {
 
 
 function createKingOfTimeBot() {
-    //king of time botのenvファイルを呼び出し
-    const kingOfTimeBotOption = setOptions();
-  
     //king of time インスタンスの生成 
-    return new LineWorksBot(kingOfTimeBotOption);
+    return new LineWorksBot(KING_OF_TIME_BOT_OPTIONS);
 }
   
   
 function putExternalBlowser(){
     console.info({method: arguments.callee.name, status: 'run'});
-    //king of time botのenvファイルを呼び出し
-    const kingOfTimeBotOption = setOptions();
-
     //king of time インスタンスの生成 
-    const kingOfTimeBot = new LineWorksBot(kingOfTimeBotOption);
+    const kingOfTimeBot = new LineWorksBot(KING_OF_TIME_BOT_OPTIONS);
 
     kingOfTimeBot.isUseExternalBlowser(true);
     console.info({method: arguments.callee.name, status: 'success'});

@@ -55,25 +55,25 @@ class LineWorksBot {
   //LineにPOST
   sendMessage(accountId, content){
     console.info({method: 'sendMessage', status: 'run'});
-    const url = `https://apis.worksmobile.com/r/${this.apiId}/message/v1/bot/${this.botNo}/message/push`
+    const url = `https://apis.worksmobile.com/r/${this.apiId}/message/v1/bot/${this.botNo}/message/push`;
 
     //LINE WORKS通知文の生成
     const payload = {
       "accountId": accountId,    
       "content": content
-    }
+    };
   
     const headers = {
       "Content-Type" : 'application/json; charset=utf-8',
       "consumerKey"   : this.consumerKey,
       "Authorization" : 'Bearer ' + this._getAccessToken()
-    }
+    };
 
     const options = {
       "method" : 'post',
       "headers" : headers,
       "payload" : JSON.stringify(payload)
-    }
+    };
 
     const response = UrlFetchApp.fetch(url, options);
     const responseText = response.getContentText();
@@ -86,25 +86,25 @@ class LineWorksBot {
   //スマホアプリで既存ブラウザを適用する設定
   isUseExternalBlowser(bool){
     console.info({method: 'isUseExternalBlowser', status: 'run'});
-    const url = `https://apis.worksmobile.com/r/${this.apiId}/admin/v1/domains/10346317/config/externalBrowser?domainId=10346317`
+    const url = `https://apis.worksmobile.com/r/${this.apiId}/admin/v1/domains/10346317/config/externalBrowser?domainId=10346317`;
 
     //LINE WORKS通知文の生成
     const payload = {
       "isUse" : bool
-    }
+    };
   
     const headers = {
       "Content-Type" : 'application/json; charset=utf-8',
       "consumerKey"   : this.consumerKey,
       "Authorization" : 'Bearer ' + this._getAccessToken()
-    }
+    };
 
     const options = {
       "method" : 'put',
       "headers" : headers,
       "muteHttpExceptions" : true,
       "payload" : JSON.stringify(payload)
-    }
+    };
 
     const response = UrlFetchApp.fetch(url, options);
     const responseText = response.getContentText();
