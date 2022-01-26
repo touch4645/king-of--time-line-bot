@@ -21,7 +21,7 @@ const TRIGGERS = [
 // 【日次実行】スプレッドシートの内容に応じて、該当する営業日のトリガーをセットする
 function setTriggerTimer() {
   console.info({method: arguments.callee.name, status: 'run'});
-  deleteTrigger('main');
+  deleteTriggers('main');
 
   if ( isCompanyHoliday( new Date() ) ) {
     return;
@@ -49,16 +49,16 @@ function setTrigger(functionName, hour, minute){
 
 
 // 既存トリガーを削除する
-function deleteTrigger(functionName) {
+function deleteTriggers(functionName) {
   console.info({method: arguments.callee.name, status: 'run'});
 
   const triggers = ScriptApp.getProjectTriggers();
-  triggers.forEach(trigger => {
+  for (const trigger of triggers) {
     if (trigger.getHandlerFunction() == functionName) {
-      ScriptApp.deleteTrigger(trigger);
+      ScriptApp.deleteTriggers(trigger);
     }
-  });
-  console.info({method: arguments.callee.name, status: 'success', delete_trigger: name});
+  }
+  console.info({method: arguments.callee.name, status: 'success', delete_trigger: functionName});
 }
 
 
@@ -66,8 +66,8 @@ function deleteTrigger(functionName) {
 function isCompanyHoliday(date) {
   console.info({method: arguments.callee.name, status: 'run'});
 
-  const startDate = new Date(date.setHours(0, 0, 0, 0));
-  const endDate = new Date(date.setHours(23, 59, 59));
+  const startDate = new Date( date.setHours(0, 0, 0, 0) );
+  const endDate = new Date( date.setHours(23, 59, 59, 999) );
 
   // 「リリー　休業日」の今日のイベントを取得
   // 休日の場合はイベントがある
