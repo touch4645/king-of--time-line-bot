@@ -55,7 +55,7 @@ function deleteTriggers(functionName) {
   const triggers = ScriptApp.getProjectTriggers();
   for (const trigger of triggers) {
     if (trigger.getHandlerFunction() == functionName) {
-      ScriptApp.deleteTriggers(trigger);
+      ScriptApp.deleteTrigger(trigger);
     }
   }
   console.info({method: arguments.callee.name, status: 'success', delete_trigger: functionName});
